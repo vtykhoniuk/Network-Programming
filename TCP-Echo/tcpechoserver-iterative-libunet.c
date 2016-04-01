@@ -15,14 +15,7 @@
 // printf, snprintf
 #include <stdio.h>
 
-// For socket
-#include <sys/types.h>
-#include <sys/socket.h>
-
-// sockaddr_in, INADDR_ANY
-#include <netinet/in.h>
-
-// write
+// close
 #include <unistd.h>
 
 // inet_ntop
@@ -38,45 +31,33 @@
 
 int main()
 {
-    char buffer[BUFFER_MAX];
-    int status;
+    int serverfd;
 
-    int serverfd = Socket(PF_INET, SOCK_STREAM, 0);
+    serverfd = Socket(PF_INET, SOCK_STREAM, 0);
 
     struct sockaddr_in servaddr;
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(PORT);
 
-    status = bind(serverfd, (struct sockaddr *) &servaddr, sizeof(struct sockaddr_in));
-    if (status == -1) {
-        perror("Error bind socket");
-        exit(EXIT_FAILURE);
-    }
-
-    status = listen(serverfd, 5);
-    if (status == -1) {
-        perror("Error listen socket");
-        exit(EXIT_FAILURE);
-    }
+    Bind(serverfd, (SA *) &servaddr, sizeof(servaddr));
+    Listen(serverfd, 5);
 
     for (;;) {
         struct sockaddr_in cliaddr;
+        char *cliaddrstr;
+
         socklen_t cliaddrlen = sizeof(cliaddr);
+        int clientfd = Accept(serverfd, (SA *) &cliaddr, &cliaddrlen);
 
-        int clientfd = accept(serverfd, (struct sockaddr *) &cliaddr, &cliaddrlen );
-        if (clientfd == -1)
-            perror("Error accepting connection");
-        else {
-            if (inet_ntop(AF_INET, (void *) &cliaddr.sin_addr, buffer, cliaddrlen)) {
-                printf("Connection from [%s:%d]\n", buffer, cliaddr.sin_port);
+        cliaddrstr = sock_ntop((SA *) &cliaddr);
+        printf("Connection from [%s]\n", cliaddrstr);
+        free(cliaddrstr);
 
-                int n = snprintf(buffer, BUFFER_MAX, "Hello, World!\r\n");
-                write(clientfd, buffer, n);
-                close(clientfd);
-            } else
-                perror("Error listen socket");
-        }
+        char msg[BUFFER_MAX];
+        int msglen = snprintf(msg, BUFFER_MAX, "Hello, World!\r\n");
+        writen(clientfd, msg, msglen);
+        close(clientfd);
     }
 
     close(serverfd);
