@@ -77,7 +77,7 @@ int main()
                 write(clientfd, buffer, n);
                 close(clientfd);
             } else
-                perror("Error listen socket");
+                perror("ntop error");
         }
     }
 
