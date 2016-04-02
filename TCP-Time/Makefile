@@ -6,7 +6,7 @@ LDLIBS          = -lunet -lcerror
 .PHONY : all clean
 .DEFAULT_GOAL = all
 
-BINS            = tcpechoserver-iterative-raw tcpechoserver-iterative-libunet
+BINS            = tcptimeserver-iterative-raw tcptimeserver-iterative-libunet
 
 all: $(BINS)
 
