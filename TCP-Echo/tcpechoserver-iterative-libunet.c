@@ -3,6 +3,11 @@
    one by one. No additional libs are used: just plain UNIX network interface and
    generic libc.
 
+   It waits for incoming tcp connections on port 17 and returns nothing more but
+   current time. It processes incoming connections iteratively one by one, using
+   single process. libcerror and, what's more important, libunet are used for
+   error processing and interaction with UNIX kernel.
+
    Tested on RH Linux 6, Mac OS X 10.11
 
    Copyright: Volodymyr Tykhoniuk, 2016
@@ -17,6 +22,9 @@
 
 // bzero
 #include <strings.h>
+
+// time_t, cnet
+#include <time.h>
 
 #include "unet.h"
 
@@ -51,8 +59,13 @@ int main()
         free(cliaddrstr);
 
         char msg[BUFFER_MAX];
-        int msglen = snprintf(msg, BUFFER_MAX, "Hello, World!\r\n");
-        Writen(clientfd, msg, msglen);
+        time_t t = time(NULL);
+        if (ctime_r(&t, msg) == NULL) {
+            err_quit("cnet_r error");
+            strcpy(msg, "Internal error\n");
+        }
+
+        Writen(clientfd, msg, strlen(msg));
         Close(clientfd);
     }
 

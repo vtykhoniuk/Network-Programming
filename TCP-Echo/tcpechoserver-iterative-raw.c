@@ -1,7 +1,8 @@
-/* Iterative TCP Echo server.
-   It waits for incoming tcp connections on port 17 and processes them iteratively
-   one by one. No additional libs are used: just plain UNIX network interface and
-   generic libc.
+/* Iterative TCP Time server.
+   It waits for incoming tcp connections on port 17 and returns nothing more but
+   current time. It processes incoming connections iteratively one by one, using
+   single process. No additional libs are used: just plain UNIX network interface
+   and generic libc.
 
    Tested on RH Linux 6, Mac OS X 10.11
 
@@ -30,6 +31,8 @@
 
 // bzero
 #include <strings.h>
+
+#include <time.h>
 
 #define BUFFER_MAX  1024
 #define PORT        17
@@ -73,8 +76,12 @@ int main()
             if (inet_ntop(AF_INET, (void *) &cliaddr.sin_addr, buffer, cliaddrlen)) {
                 printf("Connection from [%s:%d]\n", buffer, cliaddr.sin_port);
 
-                int n = snprintf(buffer, BUFFER_MAX, "Hello, World!\r\n");
-                write(clientfd, buffer, n);
+                time_t t = time(NULL);
+                if (ctime_r(&t, buffer) == NULL)
+                    perror("ctime error");
+                else
+                    write(clientfd, buffer, strlen(buffer));
+
                 close(clientfd);
             } else
                 perror("ntop error");
