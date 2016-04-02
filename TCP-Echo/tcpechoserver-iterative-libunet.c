@@ -9,14 +9,11 @@
    E-mail: volodymyr.tykhoniuk@gmail.com
    */
 
-// exit
+// exit, free
 #include <stdlib.h>
 
 // printf, snprintf
 #include <stdio.h>
-
-// inet_ntop
-#include <arpa/inet.h>
 
 // bzero
 #include <strings.h>
@@ -34,8 +31,10 @@ int main()
 
     struct sockaddr_in servaddr;
     bzero(&servaddr, sizeof(servaddr));
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(PORT);
+    servaddr.sin_family = AF_INET;
+
+    Sock_set_wild((SA *) &servaddr);
+    Sock_set_port((SA *) &servaddr, PORT);
 
     Bind(serverfd, (SA *) &servaddr, sizeof(servaddr));
     Listen(serverfd, 5);
