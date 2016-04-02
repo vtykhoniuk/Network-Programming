@@ -15,9 +15,6 @@
 // printf, snprintf
 #include <stdio.h>
 
-// close
-#include <unistd.h>
-
 // inet_ntop
 #include <arpa/inet.h>
 
@@ -57,10 +54,10 @@ int main()
         char msg[BUFFER_MAX];
         int msglen = snprintf(msg, BUFFER_MAX, "Hello, World!\r\n");
         Writen(clientfd, msg, msglen);
-        close(clientfd);
+        Close(clientfd);
     }
 
-    close(serverfd);
+    Close(serverfd);
 
     exit(EXIT_SUCCESS);
 }
