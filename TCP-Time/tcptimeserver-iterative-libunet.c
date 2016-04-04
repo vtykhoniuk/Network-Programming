@@ -1,8 +1,4 @@
 /* Iterative TCP Echo server.
-   It waits for incoming tcp connections on port 17 and processes them iteratively
-   one by one. No additional libs are used: just plain UNIX network interface and
-   generic libc.
-
    It waits for incoming tcp connections on port 17 and returns nothing more but
    current time. It processes incoming connections iteratively one by one, using
    single process. libcerror and, what's more important, libunet are used for
