@@ -24,7 +24,7 @@
 
 #include "unet.h"
 
-#define BUFFER_MAX  1024
+#define MAXLINE  1024
 #define PORT        17
 
 int main()
@@ -54,7 +54,7 @@ int main()
         printf("Connection from [%s]\n", cliaddrstr);
         free(cliaddrstr);
 
-        char msg[BUFFER_MAX];
+        char msg[MAXLINE];
         time_t t = time(NULL);
         if (ctime_r(&t, msg) == NULL) {
             err_quit("cnet_r error");
