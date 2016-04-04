@@ -24,7 +24,6 @@
 
 #include "unet.h"
 
-#define MAXLINE  1024
 #define PORT        17
 
 int main()
