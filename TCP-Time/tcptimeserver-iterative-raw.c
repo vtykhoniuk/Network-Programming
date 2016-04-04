@@ -32,6 +32,9 @@
 // bzero
 #include <strings.h>
 
+// strlen
+#include <string.h>
+
 #include <time.h>
 
 #define BUFFER_MAX  1024
@@ -77,10 +80,10 @@ int main()
                 printf("Connection from [%s:%d]\n", buffer, cliaddr.sin_port);
 
                 time_t t = time(NULL);
-                if (ctime_r(&t, buffer) == NULL)
-                    perror("ctime error");
-                else
-                    write(clientfd, buffer, strlen(buffer));
+                struct tm tm;
+                localtime_r(&t, &tm);
+                size_t n = strftime(buffer, BUFFER_MAX, "%F %T\n", &tm);
+                write(clientfd, buffer, n);
 
                 close(clientfd);
             } else
