@@ -1,5 +1,5 @@
 CC              = cc
-CFLAGS          = -std=c99 -I. -I/usr/local/include -O1 -Wall
+CFLAGS          = -std=c99 -I. -I/usr/local/include -O1 -Wall -D_XOPEN_SOURCE=700
 LDFLAGS         = -L/usr/local/lib
 LDLIBS          = -lunet -lcerror
 

@@ -29,10 +29,7 @@
 // inet_ntop
 #include <arpa/inet.h>
 
-// bzero
-#include <strings.h>
-
-// strlen
+// memset
 #include <string.h>
 
 #include <time.h>
@@ -52,7 +49,7 @@ int main()
     }
 
     struct sockaddr_in servaddr;
-    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr, '\0', sizeof(servaddr));
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(PORT);
 
