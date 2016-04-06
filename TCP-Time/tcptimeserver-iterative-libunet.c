@@ -16,15 +16,14 @@
 // printf, snprintf
 #include <stdio.h>
 
-// bzero
-#include <strings.h>
+// memset
+#include <string.h>
 
 // time_t, cnet
 #include <time.h>
 
 #include "unet.h"
 
-#define MAXLINE  1024
 #define PORT        17
 
 int main()
@@ -34,7 +33,7 @@ int main()
     serverfd = Socket(PF_INET, SOCK_STREAM, 0);
 
     struct sockaddr_in servaddr;
-    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr, '\0', sizeof(servaddr));
     servaddr.sin_family = AF_INET;
 
     Sock_set_wild((SA *) &servaddr);
@@ -56,12 +55,10 @@ int main()
 
         char msg[MAXLINE];
         time_t t = time(NULL);
-        if (ctime_r(&t, msg) == NULL) {
-            err_quit("cnet_r error");
-            strcpy(msg, "Internal error\n");
-        }
-
-        Writen(clientfd, msg, strlen(msg));
+        struct tm tm;
+        localtime_r(&t, &tm);
+        size_t n = strftime(msg, MAXLINE, "%F %T\n", &tm);
+        Writen(clientfd, msg, n);
         Close(clientfd);
     }
 

@@ -29,8 +29,8 @@
 // inet_ntop
 #include <arpa/inet.h>
 
-// bzero
-#include <strings.h>
+// memset
+#include <string.h>
 
 #include <time.h>
 
@@ -49,7 +49,7 @@ int main()
     }
 
     struct sockaddr_in servaddr;
-    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr, '\0', sizeof(servaddr));
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(PORT);
 
@@ -77,10 +77,10 @@ int main()
                 printf("Connection from [%s:%d]\n", buffer, cliaddr.sin_port);
 
                 time_t t = time(NULL);
-                if (ctime_r(&t, buffer) == NULL)
-                    perror("ctime error");
-                else
-                    write(clientfd, buffer, strlen(buffer));
+                struct tm tm;
+                localtime_r(&t, &tm);
+                size_t n = strftime(buffer, BUFFER_MAX, "%F %T\n", &tm);
+                write(clientfd, buffer, n);
 
                 close(clientfd);
             } else
