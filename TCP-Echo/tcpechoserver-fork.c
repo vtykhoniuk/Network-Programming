@@ -21,6 +21,9 @@
 // getpid
 #include <unistd.h>
 
+// waitpid
+#include <sys/wait.h>
+
 #include "unet.h"
 
 #define PORT        7777
