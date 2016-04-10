@@ -35,25 +35,33 @@ int main(int argc, char *argv[])
     Sock_set_addr((SA *) &servaddr, argv[1]);
 
     Connect(sockfd, (SA *) &servaddr, sizeof(servaddr));
+    int stdineof = 0;
 
     for (;;) {
+        size_t n;
         fd_set readset;
         FD_ZERO(&readset);
-        FD_SET(STDIN_FILENO, &readset);
+        if (stdineof == 0)
+            FD_SET(STDIN_FILENO, &readset);
         FD_SET(sockfd, &readset);
 
         Select(sockfd+1, &readset, NULL, NULL, NULL);
 
         if (FD_ISSET(STDIN_FILENO, &readset)) {
-            if (fgets(buf, MAXLINE, stdin) == NULL)
-                break;
+            if ((n = Read(STDIN_FILENO, buf, MAXLINE)) == 0) {
+                stdineof = 1;
+                Shutdown(sockfd, SHUT_WR);
+                continue;
+            }
 
-            Writen(sockfd, buf, strlen(buf));
+            Writen(sockfd, buf, n);
         } else if (FD_ISSET(sockfd, &readset)) {
-            if (Readline(sockfd, buf, MAXLINE) == 0)
-                err_quit("Server stopped prematurely");
+            if ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+                if (stdineof)   break;
+                else            err_quit("Server stopped prematurely");
+            }
 
-            Fputs(buf, stdout);
+            Write(STDOUT_FILENO, buf, n);
         }
     }
 
