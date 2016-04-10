@@ -50,10 +50,8 @@ int main(int argc, char *argv[])
 
             Writen(sockfd, buf, strlen(buf));
         } else if (FD_ISSET(sockfd, &readset)) {
-            if (Readline(sockfd, buf, MAXLINE) == 0) {
-                err_msg("Server closed connection");
-                break;
-            }
+            if (Readline(sockfd, buf, MAXLINE) == 0)
+                err_quit("Server stopped prematurely");
 
             Fputs(buf, stdout);
         }
