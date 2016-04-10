@@ -8,8 +8,6 @@
 // exit, free
 #include <stdlib.h>
 
-#include <stdio.h>
-
 // memset
 #include <string.h>
 

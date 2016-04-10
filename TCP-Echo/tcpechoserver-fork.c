@@ -12,9 +12,6 @@
 // exit, free
 #include <stdlib.h>
 
-// printf, snprintf
-#include <stdio.h>
-
 // memset
 #include <string.h>
 
