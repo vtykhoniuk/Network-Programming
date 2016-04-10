@@ -6,7 +6,7 @@ LDLIBS          = -lunet -lcerror
 .PHONY : all clean
 .DEFAULT_GOAL = all
 
-BINS            = tcpechoserver-fork tcpechoclient01
+BINS            = tcpechoserver-fork tcpechoclient01 tcpechoclient02
 
 all: $(BINS)
 
