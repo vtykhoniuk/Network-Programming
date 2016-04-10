@@ -5,6 +5,10 @@
    and prints it out to stdout
 
    I/O multiplexing using select syscall is used
+
+   Since it's dangerous to use 'select' syscall with buffered I/O
+   we don't use clib's fgets or ulib's Getline calls due to unternal
+   buffers that 'select' has no access to
    */
 
 // exit, free
