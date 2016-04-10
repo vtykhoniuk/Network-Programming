@@ -98,8 +98,10 @@ void process_client(int clientfd)
     char buf[MAXLINE];
     size_t n;
 
-    while ((n = Readline(clientfd, buf, MAXLINE)) > 0)
+    while ((n = Read(clientfd, buf, MAXLINE)) > 0) {
+        fprintf(stderr, "Child [%d]: got %ld bytes, echoing back...\n", getpid(), n);
         Writen(clientfd, buf, n);
+    }
 }
 
 void sig_child(int signo)
