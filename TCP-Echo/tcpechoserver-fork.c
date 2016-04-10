@@ -15,9 +15,6 @@
 // memset
 #include <string.h>
 
-// getpid
-#include <unistd.h>
-
 // waitpid
 #include <sys/wait.h>
 

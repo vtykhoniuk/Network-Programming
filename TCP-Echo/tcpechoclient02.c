@@ -17,9 +17,6 @@
 // memset
 #include <string.h>
 
-// STDIN_FILENO
-#include <unistd.h>
-
 #include "unet.h"
 
 #define PORT        7777
