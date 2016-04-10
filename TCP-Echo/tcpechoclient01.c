@@ -33,8 +33,15 @@ int main(int argc, char *argv[])
     char buf[MAXLINE];
     while (fgets(buf, MAXLINE, stdin) != NULL) {
         Writen(sockfd, buf, strlen(buf));
-        Readline(sockfd, buf, MAXLINE);
-        printf("%s", buf);
+
+        /* Since we expect to work with echo server, there
+           should always be a response. If nothing comes back
+           then something went wrong on a server side
+           */
+        if (Readline(sockfd, buf, MAXLINE) == 0)
+            err_quit("Server stops prematurely");
+
+        Fputs(buf, stdout);
     }
 
     if (ferror(stdin))
