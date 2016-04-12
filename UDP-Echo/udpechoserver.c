@@ -1,5 +1,16 @@
+/* Forked UDP Echo server.
+   Iterative UDP echo server. It echoes back every UDP packet arrived to the host
+
+   Tested on RH Linux 6, Mac OS X 10.11
+
+   Copyright: Volodymyr Tykhoniuk, 2016
+   E-mail: volodymyr.tykhoniuk@gmail.com
+   */
+
+// exit, free
 #include <stdlib.h>
-#include <stdio.h>
+
+// memset
 #include <string.h>
 
 #include "unet.h"
