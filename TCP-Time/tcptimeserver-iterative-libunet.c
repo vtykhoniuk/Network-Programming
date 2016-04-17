@@ -49,7 +49,7 @@ int main()
         socklen_t cliaddrlen = sizeof(cliaddr);
         int clientfd = Accept(serverfd, (SA *) &cliaddr, &cliaddrlen);
 
-        cliaddrstr = Sock_ntop((SA *) &cliaddr);
+        Sock_ntop((SA *) &cliaddr, &cliaddrstr);
         printf("Connection from [%s]\n", cliaddrstr);
         free(cliaddrstr);
 
