@@ -71,7 +71,8 @@ int main()
             Close(serverfd);
 
             /* Logging */
-            char *cliaddrstr = Sock_ntop((SA *) &cliaddr);
+            char *cliaddrstr;
+            Sock_ntop((SA *) &cliaddr, &cliaddrstr);
             printf("Child [%d]: Connection from [%s]\n", getpid(), cliaddrstr);
             free(cliaddrstr);
 
