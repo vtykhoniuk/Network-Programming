@@ -35,7 +35,8 @@ int main()
         socklen_t cliaddrlen = sizeof(&cliaddr);
 
         size_t n = Recvfrom(servfd, buf, MAXLINE, 0, (SA *) &cliaddr, &cliaddrlen);
-        char *cliaddr_str = Sock_ntop((SA *) &cliaddr);
+        char *cliaddr_str;
+        Sock_ntop((SA *) &cliaddr, &cliaddr_str);
 
         fprintf(stderr, "UDP packet of size %ld bytes received from [%s]\n", n, cliaddr_str);
         free(cliaddr_str);
