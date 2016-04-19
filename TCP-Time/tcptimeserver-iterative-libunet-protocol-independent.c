@@ -30,12 +30,14 @@
 
 int main(int argc, char **argv)
 {
-    int serverfd;
+    int serverfd = -1;
 
-    if (argc != 3)
-        err_quit("Usage: %s <Host/IP> <Service/Port>");
-
-    serverfd = tcp_listen(argv[1], argv[2]);
+    if (argc == 2)
+        serverfd = tcp_listen(NULL, argv[1]);
+    else if (argc == 3)
+        serverfd = tcp_listen(argv[1], argv[2]);
+    else
+        err_quit("Usage: %s [<Host/IP>] <Service/Port>");
 
     for (;;) {
         struct sockaddr_storage cliaddr;
