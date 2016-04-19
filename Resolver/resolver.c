@@ -11,9 +11,6 @@
    E-mail: volodymyr.tykhoniuk@gmail.com
    */
 
-#include <stdlib.h>
-#include <string.h>
-
 #include "unet.h"
 
 

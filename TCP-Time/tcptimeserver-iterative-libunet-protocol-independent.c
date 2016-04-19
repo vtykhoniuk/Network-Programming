@@ -13,19 +13,10 @@
    E-mail: volodymyr.tykhoniuk@gmail.com
    */
 
-// exit, free
-#include <stdlib.h>
-
-// printf, snprintf
-#include <stdio.h>
-
-// memset
-#include <string.h>
+#include "unet.h"
 
 // time_t, cnet
 #include <time.h>
-
-#include "unet.h"
 
 
 int main(int argc, char **argv)

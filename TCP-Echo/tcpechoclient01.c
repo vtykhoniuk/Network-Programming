@@ -5,12 +5,6 @@
    and prints it out to stdout
    */
 
-// exit, free
-#include <stdlib.h>
-
-// memset
-#include <string.h>
-
 #include "unet.h"
 
 #define PORT        7777

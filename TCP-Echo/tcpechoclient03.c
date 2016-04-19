@@ -9,12 +9,6 @@
    E-mail: volodymyr.tykhoniuk@gmail.com
    */
 
-// exit, free
-#include <stdlib.h>
-
-// memset
-#include <string.h>
-
 #include "unet.h"
 
 
